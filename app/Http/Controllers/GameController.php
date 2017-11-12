@@ -45,17 +45,23 @@ class GameController extends Controller
         $add++;
         $request->offsetSet('slug', str_slug($request->title . '-' . $add, '-'));
         $request->offsetSet('summary', substr($request->synopsis, 0, 255));
-        
+
         $imgName = hash('md5', $request->id . $request->title . $add) .'.'. $request->file('cov')->getClientOriginalExtension();
 
         $request->file('cov')->move('uploads/avatars/', $imgName);
-    
+
         $data = $request->except('cov');
         $data['cov'] = $imgName;
         $data['status'] = 'PENDING';
         $date['user_id'] = Auth::user()->id;
 
         Game::create($data);
+
+        // Send message to Bureau & General to accept the games
+        /*
+            NEED TO BE DONE
+        */
+
         return redirect('/')->withOk("<strong>".$request->input('title')."</strong> has been created. An Admin has been e-mailed to review the query.");
     }
 
@@ -114,6 +120,7 @@ class GameController extends Controller
         $game->increment('pj_current');
         $game->update(['pj_current', $game->pj_current]);
         $game->users()->attach(Auth::user());
+
         return back();
     }
 
@@ -121,13 +128,13 @@ class GameController extends Controller
     {
         // if ($game->when < Carbon::now())
         //     return back();
-        
+
         if ($game->users->find(Auth::user()->id)) {
             $game->users()->detach(Auth::user());
             $game->users->find(Auth::user()->id)->games()->detach($game);
             $game->pj_current--;
             $game->update(['pj_current', $game->pj_current]);
-            return back();  
+            return back();
         }
         return back();
     }
