@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Game;
 use App\User;
+use Mail;
 use App\Article;
 use Illuminate\Http\Request;
 use App\Http\Requests\AdminGamePromoteRequest;
+use App\Http\Requests\AdminUserPromoteRequest;
+use App\Http\Requests\AdminUserDemoteRequest;
 
 class AdminController extends Controller
 {
@@ -127,6 +130,19 @@ class AdminController extends Controller
         }
         $request->offsetSet('status', $status);
         $game->update($request->all());
+
+        //Sending mail to all database
+        $users = User::all();
+        
+        //$adm->notify(new NewGameUser($game));
+        for ($i = 0; $i < count($users); $i++)
+        {
+            Mail::send('mail.activegamenotification', ['game' => $game, 'user' => $users[$i]], function($message)
+            {
+                $message->to($users[$i]);
+            });
+        }
+
         return back()->withOk($mess . $status);
     }
 
@@ -150,5 +166,34 @@ class AdminController extends Controller
         $request->offsetSet('status', $status);
         $game->update($request->all());
         return back()->withOk($mess . $status);
+    }
+
+    public function promoteuser(AdminUserPromoteRequest $request, User $user)
+    {
+        if ($user->role_id > 1)
+            $user->role_id -= 1;
+        else
+            return back()->withOk("Impossible, utilisateur déjà au maximum");
+        $request->offsetSet('role_id', $user->role_id);
+        $user->update($request->all());
+        
+        //===== Send mail ?
+        
+        return back()->withOk($user->name . " monte d'un rang");
+    }
+
+    public function demoteuser(AdminUserDemoteRequest $request, User $user)
+    {
+        if ($user->role_id < 5)
+            $user->role_id += 1;
+        else
+            return back()->withOk("Impossible, utiliser déjà au minimum");
+        
+        $request->offsetSet('role_id', $user->role_id);
+        $user->update($request->all());
+        
+        //===== Send mail ?
+        
+        return back()->withOk($user->name . " descend d'un rang");
     }
 }

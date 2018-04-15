@@ -20,7 +20,7 @@ class CreateArticlesTable extends Migration
             $table->string('slug')->unique();
             $table->text('summary');
             $table->text('content');
-            $table->text('cov')->default('default.jpg');
+            $table->text('cov');
             $table->integer('user_id')->unsigned();
         });
 

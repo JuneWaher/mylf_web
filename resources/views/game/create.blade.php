@@ -27,7 +27,7 @@
                             	{!! $errors->first('when', '<small class="help-block">:message</small>') !!}
 							</div> -->
 							<div class="form-group {!! $errors->has('when') ? 'has-error' : '' !!}">
-								{!! Form::datetime('when', \Carbon\Carbon::now(), ['class' => 'form-control', 'placeholder' => 'When']) !!}
+								{!! Form::datetime('when', \Carbon\Carbon::now()->format('Y-m-d H:i:s'), ['class' => 'form-control', 'placeholder' => 'When']) !!}
                             	{!! $errors->first('when', '<small class="help-block">:message</small>') !!}
 							</div>
 							<div class="form-group {!! $errors->has('where') ? 'has-error' : '' !!}">

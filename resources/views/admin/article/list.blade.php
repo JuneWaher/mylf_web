@@ -2,47 +2,30 @@
 
 @section('content')
 	<div class="container">
-		<h2>Games List</h2>
+		<h2>Article List</h2>
 	<table class="table table-hover">
 		<thead>
 			<tr>
 				<th>Couverture</th>
 				<th>Title</th>
 				<th>Summary</th>
-				<th>When</th>
-				<th>Pjs</th>
-				<th>Status</th>
-				<th>Actions</th>
+				<th>Voir</th>
+				<th>Supprimer</th>
 			</tr>
 		</thead>
 		<tbody>
-			@foreach($users as $user)
+			@foreach($articles as $article)
 				<tr class="">
-					<td>{!! Html::image('uploads/avatars/'.$user->avatar, $user->name, array('class' => 'img-fluid img-circle', 'style' => 'max-height:50px;')) !!}</td>
-					<td>{{ $user->name }}</td>
-					<td>{{ $user->email }}</td>
-					<td>{{ $user->role->role }}</td>
+					<td>{!! Html::image('uploads/avatars/'.$article->avatar, $article->name, array('class' => 'img-fluid img-circle', 'style' => 'max-height:50px;')) !!}</td>
+					<td>{{ $article->title }}</td>
+					<td>{{ $article->summary }}</td>
+					
 					<td>
-						@foreach($user->games as $game)
-							{!! link_to_route('game.show', $game->title, [$game->slug]) !!}</td>
-						@endforeach
+						{!! link_to_route('article.show', 'See', [$article->slug], ['class' => 'btn btn-warning btn-sm']) !!}
 					</td>
 					
 					<td>
-						{!! link_to_route('user.show', 'See', [$user->slug], ['class' => 'btn btn-warning btn-sm']) !!}
-					</td>
-					
-					<td>
-					{!! Form::open(['route' => ['', $user], 'method' => 'post']) !!}
-						{!! Form::submit('Promote', ['class' => 'btn btn-success btn-sm']) !!}
-					{!! Form::close() !!}
-					{!! Form::open(['route' => ['', $user], 'method' => 'post']) !!}
-						{!! Form::submit('Demote', ['class' => 'btn btn-danger btn-sm']) !!}
-					{!! Form::close() !!}
-					</td>
-					
-					<td>
-					{!! Form::open(['route' => ['user.destroy', $user], 'method' => 'delete']) !!}
+					{!! Form::open(['route' => ['article.destroy', $article], 'method' => 'delete']) !!}
 						{!! Form::submit('Delete', ['class' => 'btn btn-danger btn-sm']) !!}
 					{!! Form::close() !!}
 					</td>
@@ -50,6 +33,6 @@
 			@endforeach
 		</tbody>
 	</table>
-	{!! $users->links() !!}
+	{!! $articles->links() !!}
 	</div>
 @endsection

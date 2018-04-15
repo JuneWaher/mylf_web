@@ -2,7 +2,7 @@
 
 @section('content')
 	<div class="container">
-		<h2>Games List</h2>
+		<h2>Liste d'Utilisateurs</h2>
 	<table class="table table-hover">
 		<thead>
 			<tr>
@@ -33,16 +33,16 @@
 					</td>
 					
 					<td>
-					{!! Form::open(['route' => ['member.show', $user], 'method' => 'post']) !!}
+					{!! Form::open(['route' => ['admin.user.promote', $user], 'method' => 'post']) !!}
 						{!! Form::submit('Promote', ['class' => 'btn btn-success btn-sm']) !!}
 					{!! Form::close() !!}
-					{!! Form::open(['route' => ['member.show', $user], 'method' => 'post']) !!}
+					{!! Form::open(['route' => ['admin.user.demote', $user], 'method' => 'post']) !!}
 						{!! Form::submit('Demote', ['class' => 'btn btn-danger btn-sm']) !!}
 					{!! Form::close() !!}
 					</td>
 					
 					<td>
-					{!! Form::open(['route' => ['member.show', $user], 'method' => 'delete']) !!}
+					{!! Form::open(['route' => ['user.destroy', $user], 'method' => 'delete']) !!}
 						{!! Form::submit('Delete', ['class' => 'btn btn-danger btn-sm']) !!}
 					{!! Form::close() !!}
 					</td>

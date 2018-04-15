@@ -24,6 +24,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'slug' => str_slug($name, '-'),
         'game_played' => rand(0, 120),
         'role_id' => rand(1, 5),
+        'avatar' => 'default.jpg',
     ];
 });
 
@@ -38,6 +39,7 @@ $factory->define(App\Article::class, function (Faker\Generator $faker) {
         'summary' => substr($content, 0, 128),
         'content' => $content,
         'user_id' => rand(1, 49),
+        'cov' => 'default.jpg',
     ];
 });
 
@@ -57,6 +59,7 @@ $factory->define(App\Game::class, function (Faker\Generator $faker) {
         'status' => $status[0],
         'pj_limit' => rand(2, 38),
         'author' => rand(1, 30),
+        'cov' => 'default.jpg',
         
     ];
 });

@@ -22,7 +22,7 @@ class CreateGamesTable extends Migration
             $table->text('synopsis');
             $table->text('where');
             $table->timestamp('when')->default(Carbon\Carbon::now());
-            $table->text('cov')->default('default.jpg');
+            $table->text('cov');
             $table->enum('status', array('ACTIVE', 'PENDING', 'ENDED', 'CANCELED'))->default('PENDING');
             $table->integer('pj_limit');
             $table->integer('pj_current')->default(0);

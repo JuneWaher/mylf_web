@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('slug')->unique();
-            $table->text('avatar')->default('default.jpg');
+            $table->text('avatar');
             $table->integer('game_played');
             $table->integer('role_id')->unsigned();
             $table->rememberToken();

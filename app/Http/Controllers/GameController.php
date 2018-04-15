@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Notifications\NewGameUser;
 use App\Http\Requests\GameCreateRequest;
 use App\Http\Requests\GameUpdateRequest;
 use Illuminate\Http\Request;
+use App\User;
 use App\Game;
 use Auth;
+use Mail;
 
 class GameController extends Controller
 {
@@ -47,13 +50,14 @@ class GameController extends Controller
         $request->offsetSet('summary', substr($request->synopsis, 0, 255));
 
         $imgName = hash('md5', $request->id . $request->title . $add) .'.'. $request->file('cov')->getClientOriginalExtension();
-
+        $request->when = date("Y-m-d H:i:s");
         $request->file('cov')->move('uploads/avatars/', $imgName);
 
         $data = $request->except('cov');
         $data['cov'] = $imgName;
         $data['status'] = 'PENDING';
-        $date['user_id'] = Auth::user()->id;
+        $data['user_id'] = Auth::user()->id;
+        $data['author'] = Auth::user()->id;
 
         Game::create($data);
 
@@ -61,6 +65,11 @@ class GameController extends Controller
         /*
             NEED TO BE DONE
         */
+
+        $user = Auth::user();
+        Mail::send('mail.gamerequest', ["game" => $data, "user" => $user], function($message){
+            $message->to("len.compan@gmail.com");
+        });
 
         return redirect('/')->withOk("<strong>".$request->input('title')."</strong> has been created. An Admin has been e-mailed to review the query.");
     }
