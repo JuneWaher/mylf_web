@@ -13,7 +13,7 @@
 		    </p>
 		  </div>
 			<div class="card-footer">
-				{!! link_to_route('member.show', 'See profil', [$user->slug], ['class' => 'btn btn-primary']) !!}
+				{!! link_to_route('member.show', 'Voir le profil', [$user->slug], ['class' => 'btn btn-primary']) !!}
 			</div>
 		</div>
 	</div>
