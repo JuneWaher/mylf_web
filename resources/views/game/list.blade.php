@@ -8,8 +8,8 @@
 	@foreach ($games as $game)
 	<div class="row">
 	<div class="col-sm-12" style="padding: 10px;">
-		<div class="media">
-		<div class="col-sm-3">
+		<div class="media"style="background: white; border:2px black;">
+		<div class="col-sm-3" >
 		  {!! Html::image('uploads/avatars/'.$game->cov, 'avatar', array('style' => 'max-height:150px; height:150px;', 'class' => 'img-fluid')) !!}
 		  </div>
 		  <div class="media-body">

@@ -37,10 +37,8 @@
 					<div class="panel-footer">
 						@if (!Auth::guest() && $game->status != 'ACTIVE')
 							<strong>Sorry, the game is {{ $game->status }}</strong>
-						@elseif (!Auth::guest() && $game->pj_current >= $game->pj_limit)
-							<strong>Sorry, no more place :(</strong>
 						@elseif (!Auth::guest())
-							@if (!! !$game->users->find(Auth::user()->id))
+							@if ( !$game->users->find(Auth::user()->id))
 								{!! Form::open(['route' => ['game.sub', $game], 'method' => 'post']) !!}
 									{!! Form::submit('Subscribe', ['class' => 'btn btn-success clearfix pull-right']) !!}<div class="clearfix"></div>
 								{!! Form::close() !!}
@@ -49,6 +47,8 @@
 									{!! Form::submit('Unsubscribe', ['class' => 'btn btn-danger pull-right clearfix']) !!}<div class="clearfix"></div>
 								{!! Form::close() !!}
 							@endif
+						@elseif (!Auth::guest() && $game->pj_current >= $game->pj_limit )
+								<strong>Sorry, no more place :(</strong>
 						@else
 							<strong>You must log in to subscribe :)</strong>
 						@endif
